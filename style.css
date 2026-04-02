@@ -567,11 +567,12 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background-image: url('assets/logo/KING.png');
-    background-size: cover;
-    background-position: center;
+    object-fit: cover;
     position: relative;
     z-index: 2;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 /* Пульсирующее кольцо вокруг аватара */
