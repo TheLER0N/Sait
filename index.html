@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KING — Game Developer</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preload" as="image" href="assets/logo/KING.png">
 </head>
 <body>
 
@@ -87,7 +88,7 @@
         <div class="hero-content">
             <!-- Аватар с анимированным кольцом вокруг -->
             <div class="avatar-container">
-                <img src="assets/logo/KING.png" alt="KING" class="avatar" id="main-avatar">
+                <img src="assets/logo/KING.png" alt="KING" class="avatar" id="main-avatar" loading="eager" decoding="sync">
                 <div class="avatar-ring"></div>
             </div>
             <h1 class="hero-title">KING</h1>
@@ -178,30 +179,20 @@
         </div>
     </section>
 
-    <!-- ==================== СТРАНИЦА ПРОЕКТА (полноэкранная) ==================== -->
+    <!-- ==================== POPUP ПРОЕКТА ==================== -->
     <div class="project-page" id="project-page">
-        <!-- Панорамное фоновое изображение проекта -->
-        <div class="page-panorama" id="page-panorama"></div>
-        <!-- Затемняющий оверлей -->
-        <div class="page-overlay"></div>
-        <!-- Кнопка закрытия страницы проекта -->
-        <button class="page-close" onclick="closeProject()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-        </button>
+        <div class="page-overlay" onclick="closeProject()"></div>
         <div class="page-content">
             <div class="page-inner">
+                <button class="page-close" onclick="closeProject()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+                <div class="page-preview" id="page-preview"></div>
                 <h1 class="page-title" id="page-title"></h1>
                 <p class="page-desc" id="page-desc"></p>
-                <!-- Скриншоты проекта (кликабельные, открываются в лайтбоксе) -->
-                <div class="page-screenshots" id="page-screenshots"></div>
-                <div class="page-tech">
-                    <h3>Технологии</h3>
-                    <div class="tech-tags" id="page-tech"></div>
-                </div>
-                <!-- Ссылка на GitHub репозиторий -->
-                <a href="#" class="page-github" id="page-github" target="_blank">
+                <a href="#" class="page-github" id="page-github" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
@@ -278,13 +269,12 @@
                 shortDesc: 'Клон популярной игры (учебный проект).',
                 fullDesc: 'Разработка клона Flappy Bird. Изначально делался как проект для сдачи преподавателю. Акцент на физику прыжка и бесконечную генерацию труб.',
                 github: 'https://github.com/TheLER0N',
+                preview: '',
                 tech: ['C++', 'SFML', 'Game Physics'],
-                panorama: '',
                 theme: {
                     bg: '#1a2530',
                     accent: '#71c5cf',
-                },
-                screenshots: []
+                }
             }
         ];
 
@@ -297,8 +287,9 @@
         projects.forEach((proj, i) => {
             const card = document.createElement('div');
             card.className = 'project-card reveal';
-            card.style.transitionDelay = `${i * 0.1}s`;
-            card.innerHTML = `
+            card.style.setProperty('--reveal-delay', `${i * 0.1}s`);
+
+            const baseCardMarkup = `
                 <div class="card-glow"></div>
                 <div class="card-header">
                     <div class="card-icon">
@@ -306,7 +297,7 @@
                             <path d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/>
                         </svg>
                     </div>
-                    <a href="${proj.github}" target="_blank" class="card-github" onclick="event.stopPropagation()">
+                    <a href="${proj.github}" target="_blank" rel="noopener noreferrer" class="card-github" onclick="event.stopPropagation()">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                         </svg>
@@ -319,7 +310,8 @@
                 </div>
             `;
 
-            // Если проект имеет отдельную страницу — делаем карточку ссылкой
+            card.innerHTML = baseCardMarkup;
+
             if (proj.isExternal) {
                 const link = document.createElement('a');
                 link.href = proj.pageUrl;
@@ -353,63 +345,44 @@
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
             // Свечение следует за курсором
             const glow = card.querySelector('.card-glow');
-            glow.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(212, 175, 55, 0.15), transparent 60%)`;
+            if (glow) {
+                glow.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(212, 175, 55, 0.15), transparent 60%)`;
+            }
         }
 
         function resetCardTilt(card) {
             card.style.transform = '';
             const glow = card.querySelector('.card-glow');
-            glow.style.background = 'transparent';
+            if (glow) {
+                glow.style.background = 'transparent';
+            }
         }
 
         // ==================== ОТКРЫТИЕ СТРАНИЦЫ ПРОЕКТА ====================
         function openProject(proj) {
-            // Устанавливаем акцентный цвет страницы проекта
             root.style.setProperty('--page-accent', proj.theme.accent);
 
-            // Выбираем панораму (10% шанс ночной для Minecraft)
-            let panoramaSrc;
-            if (typeof proj.panorama === 'object') {
-                panoramaSrc = Math.random() < 0.1 ? proj.panorama.night : proj.panorama.day;
-            } else if (proj.panorama) {
-                panoramaSrc = proj.panorama;
+            const previewContainer = document.getElementById('page-preview');
+            previewContainer.innerHTML = '';
+
+            if (proj.preview) {
+                const previewImg = document.createElement('img');
+                previewImg.src = proj.preview;
+                previewImg.className = 'page-preview-img';
+                previewImg.alt = `Превью ${proj.title}`;
+                previewImg.onerror = () => {
+                    previewContainer.innerHTML = '<div class="page-preview-placeholder">Фото проекта скоро появится</div>';
+                };
+                previewContainer.appendChild(previewImg);
             } else {
-                panoramaSrc = '';
+                previewContainer.innerHTML = '<div class="page-preview-placeholder">Фото проекта скоро появится</div>';
             }
-            if (panoramaSrc) {
-                document.getElementById('page-panorama').style.backgroundImage = `url('${panoramaSrc}')`;
-            }
+
             document.getElementById('page-title').innerText = proj.title;
             document.getElementById('page-title').style.color = proj.theme.accent;
             document.getElementById('page-desc').innerText = proj.fullDesc;
             document.getElementById('page-github').href = proj.github;
 
-            // Рендерим теги технологий
-            const techContainer = document.getElementById('page-tech');
-            techContainer.innerHTML = proj.tech.map(t => `<span class="tag">${t}</span>`).join('');
-
-            // Рендерим скриншоты с обработкой ошибок
-            const screensContainer = document.getElementById('page-screenshots');
-            screensContainer.innerHTML = '';
-            if (proj.screenshots && proj.screenshots.length > 0) {
-                proj.screenshots.forEach(src => {
-                    const img = document.createElement('img');
-                    img.src = src;
-                    img.className = 'page-screenshot-img';
-                    img.alt = `Скриншот ${proj.title}`;
-                    img.onclick = () => openLightbox(src);
-                    // Если изображение не загрузилось — показываем заглушку
-                    img.onerror = () => {
-                        img.style.display = 'none';
-                        screensContainer.innerHTML += `<div class="page-screenshot-placeholder">Скриншот скоро появится</div>`;
-                    };
-                    screensContainer.appendChild(img);
-                });
-            } else {
-                screensContainer.innerHTML = `<div class="page-screenshot-placeholder">Скриншоты скоро появятся</div>`;
-            }
-
-            // Активируем страницу и блокируем прокрутку фона
             projectPage.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
