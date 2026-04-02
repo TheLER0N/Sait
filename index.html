@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- Кодировка страницы -->
+    <meta charset="UTF-8">
+    <!-- Адаптивность под мобильные устройства -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KING — Game Developer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ==================== ФОНОВЫЕ ЭЛЕМЕНТЫ ==================== -->
+    <!-- Сетка на фоне для визуальной глубины -->
+    <div class="bg-grid"></div>
+
+    <!-- Размытые цветные сферы, плавающие по экрану -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+
+    <!-- SVG-волны внизу экрана для декоративного эффекта -->
+    <div class="waves-container">
+        <svg class="wave wave-1" viewBox="0 0 1440 400" preserveAspectRatio="none">
+            <path d="M0,200L60,185C120,170,240,140,360,155C480,170,600,230,720,245C840,260,960,230,1080,200C1200,170,1320,140,1380,125L1440,110L1440,400L1380,400C1320,400,1200,400,1080,400C960,400,840,400,720,400C600,400,480,400,360,400C240,400,120,400,60,400L0,400Z"></path>
+        </svg>
+        <svg class="wave wave-2" viewBox="0 0 1440 400" preserveAspectRatio="none">
+            <path d="M0,250L60,230C120,210,240,170,360,180C480,190,600,250,720,270C840,290,960,270,1080,240C1200,210,1320,170,1380,150L1440,130L1440,400L1380,400C1320,400,1200,400,1080,400C960,400,840,400,720,400C600,400,480,400,360,400C240,400,120,400,60,400L0,400Z"></path>
+        </svg>
+        <svg class="wave wave-3" viewBox="0 0 1440 400" preserveAspectRatio="none">
+            <path d="M0,300L60,280C120,260,240,220,360,230C480,240,600,300,720,320C840,340,960,320,1080,290C1200,260,1320,220,1380,200L1440,180L1440,400L1380,400C1320,400,1200,400,1080,400C960,400,840,400,720,400C600,400,480,400,360,400C240,400,120,400,60,400L0,400Z"></path>
+        </svg>
+        <svg class="wave wave-4" viewBox="0 0 1440 400" preserveAspectRatio="none">
+            <path d="M0,150L60,170C120,190,240,230,360,220C480,210,600,150,720,130C840,110,960,130,1080,160C1200,190,1320,230,1380,250L1440,270L1440,400L1380,400C1320,400,1200,400,1080,400C960,400,840,400,720,400C600,400,480,400,360,400C240,400,120,400,60,400L0,400Z"></path>
+        </svg>
+    </div>
+
+    <!-- Декоративные геометрические фигуры, плавающие по фону -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+    </div>
+
+    <!-- Затемнение по краям экрана (виньетка) -->
+    <div class="bg-vignette"></div>
+
+    <!-- ==================== КАСТОМНЫЙ КУРСОР ==================== -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
+
+    <!-- Canvas для анимированных частиц -->
+    <canvas id="particles"></canvas>
+
+    <!-- ==================== НАВИГАЦИЯ ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo">KING</div>
+        <div class="nav-links">
+            <a href="#hero">Главная</a>
+            <a href="#about">Обо мне</a>
+            <a href="#projects">Проекты</a>
+            <a href="#contact">Контакты</a>
+        </div>
+        <!-- Кнопка-бургер для мобильного меню -->
+        <button class="burger" id="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Полноэкранное мобильное меню -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#hero">Главная</a>
+        <a href="#about">Обо мне</a>
+        <a href="#projects">Проекты</a>
+        <a href="#contact">Контакты</a>
+    </div>
+
+    <!-- ==================== HERO-СЕКЦИЯ ==================== -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <!-- Аватар с анимированным кольцом вокруг -->
+            <div class="avatar-container">
+                <div class="avatar" id="main-avatar"></div>
+                <div class="avatar-ring"></div>
+            </div>
+            <h1 class="hero-title">KING</h1>
+            <!-- Подзаголовок с эффектом печатной машинки -->
+            <p class="hero-subtitle"><span id="typed-text"></span><span class="cursor-blink">|</span></p>
+            <a href="#projects" class="scroll-btn">
+                <span>Смотреть проекты</span>
+                <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12l7 7 7-7"/>
+                </svg>
+            </a>
+        </div>
+        <!-- Индикатор прокрутки (иконка мыши) -->
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== СЕКЦИЯ "ОБО МНЕ" ==================== -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title reveal">
+                <span class="title-line"></span>
+                Обо мне
+            </h2>
+            <div class="about-content">
+                <!-- Текстовое описание -->
+                <div class="about-text reveal">
+                    <p>Game Developer с фокусом на C++ и C#. Создаю игры и интерактивные приложения, от концепции до реализации. Увлечён низкоуровневой оптимизацией, графическими API и архитектурой игровых движков.</p>
+                    <p>Каждый проект — это возможность изучить что-то новое и довести техническое решение до совершенства.</p>
+                </div>
+                <!-- Карточки навыков с прогресс-барами -->
+                <div class="skills-grid reveal">
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/>
+                            </svg>
+                        </div>
+                        <h3>C++</h3>
+                        <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/>
+                            </svg>
+                        </div>
+                        <h3>C#</h3>
+                        <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                <path d="M8 21h8M12 17v4"/>
+                            </svg>
+                        </div>
+                        <h3>Vulkan / bgfx</h3>
+                        <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                        </div>
+                        <h3>Game Dev</h3>
+                        <div class="skill-bar"><div class="skill-fill" data-width="88"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== СЕКЦИЯ "ПРОЕКТЫ" ==================== -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title reveal">
+                <span class="title-line"></span>
+                Проекты
+            </h2>
+            <!-- Карточки проектов генерируются через JS -->
+            <div class="projects-grid" id="projects-grid"></div>
+        </div>
+    </section>
+
+    <!-- ==================== СТРАНИЦА ПРОЕКТА (полноэкранная) ==================== -->
+    <div class="project-page" id="project-page">
+        <!-- Панорамное фоновое изображение проекта -->
+        <div class="page-panorama" id="page-panorama"></div>
+        <!-- Затемняющий оверлей -->
+        <div class="page-overlay"></div>
+        <!-- Кнопка закрытия страницы проекта -->
+        <button class="page-close" onclick="closeProject()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <div class="page-content">
+            <div class="page-inner">
+                <h1 class="page-title" id="page-title"></h1>
+                <p class="page-desc" id="page-desc"></p>
+                <!-- Скриншоты проекта (кликабельные, открываются в лайтбоксе) -->
+                <div class="page-screenshots" id="page-screenshots"></div>
+                <div class="page-tech">
+                    <h3>Технологии</h3>
+                    <div class="tech-tags" id="page-tech"></div>
+                </div>
+                <!-- Ссылка на GitHub репозиторий -->
+                <a href="#" class="page-github" id="page-github" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ЛАЙТБОКС (просмотр изображений) ==================== -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <img src="" alt="" id="lightbox-img">
+    </div>
+
+    <!-- ==================== ФУТЕР ==================== -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>KING</h3>
+                    <p>Game Developer | C++ & C#</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/TheLER0N" target="_blank" class="footer-link">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 KING. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== ДАННЫЕ ПРОЕКТОВ ====================
+        // Массив объектов — каждый объект это один проект
+        const projects = [
+            {
+                id: 'mc-legacy',
+                title: 'Minecraft Legacy REMAKE',
+                shortDesc: 'Воссоздание консольной версии Minecraft на C++.',
+                fullDesc: 'Глобальный проект по ремейку Legacy-версии Minecraft. Реализована кастомная генерация миров, поддержка загрузки Bedrock-миров и P2P сервера для мини-игр. Написано с использованием современных графических API (Vulkan/bgfx).',
+                github: 'https://github.com/TheLER0N/Minecraft_legacy_REMAKE',
+                tech: ['C++', 'Vulkan', 'bgfx', 'P2P'],
+                panorama: {
+                    day: 'assets/Minecraft leagcy REMAKE/panorama_tu69_day.png',
+                    night: 'assets/Minecraft leagcy REMAKE/panorama_tu69_night.png',
+                },
+                theme: {
+                    bg: '#1a1f1a',
+                    accent: '#5c9125',
+                },
+                screenshots: [
+                    'assets/Minecraft leagcy REMAKE/chunk.png',
+                    'assets/Minecraft leagcy REMAKE/menu.png',
+                    'assets/Minecraft leagcy REMAKE/gen_world.png'
+                ],
+                // Отдельная страница вместо модалки
+                isExternal: true,
+                pageUrl: 'minecraft_legacy.html'
+            },
+            {
+                id: 'flappy',
+                title: 'Flappy Bird Clone',
+                shortDesc: 'Клон популярной игры (учебный проект).',
+                fullDesc: 'Разработка клона Flappy Bird. Изначально делался как проект для сдачи преподавателю. Акцент на физику прыжка и бесконечную генерацию труб.',
+                github: 'https://github.com/TheLER0N',
+                tech: ['C++', 'SFML', 'Game Physics'],
+                panorama: '',
+                theme: {
+                    bg: '#1a2530',
+                    accent: '#71c5cf',
+                },
+                screenshots: []
+            }
+        ];
+
+        // ==================== РЕНДЕР КАРТОЧЕК ПРОЕКТОВ ====================
+        const grid = document.getElementById('projects-grid');
+        const projectPage = document.getElementById('project-page');
+        const root = document.documentElement;
+
+        // Генерируем карточки из массива projects
+        projects.forEach((proj, i) => {
+            const card = document.createElement('div');
+            card.className = 'project-card reveal';
+            card.style.transitionDelay = `${i * 0.1}s`;
+            card.innerHTML = `
+                <div class="card-glow"></div>
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/>
+                        </svg>
+                    </div>
+                    <a href="${proj.github}" target="_blank" class="card-github" onclick="event.stopPropagation()">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+                <h3>${proj.title}</h3>
+                <p>${proj.shortDesc}</p>
+                <div class="card-tags">
+                    ${proj.tech.map(t => `<span class="tag">${t}</span>`).join('')}
+                </div>
+            `;
+
+            // Если проект имеет отдельную страницу — делаем карточку ссылкой
+            if (proj.isExternal) {
+                const link = document.createElement('a');
+                link.href = proj.pageUrl;
+                link.className = 'project-card-link';
+                link.style.textDecoration = 'none';
+                link.style.color = 'inherit';
+                link.style.display = 'block';
+                link.appendChild(card);
+                // Tilt-эффект для карточек-ссылок
+                link.addEventListener('mousemove', (e) => handleCardTilt(e, card));
+                link.addEventListener('mouseleave', () => resetCardTilt(card));
+                grid.appendChild(link);
+            } else {
+                // Обычная модалка
+                card.onclick = () => openProject(proj);
+                card.addEventListener('mousemove', (e) => handleCardTilt(e, card));
+                card.addEventListener('mouseleave', () => resetCardTilt(card));
+                grid.appendChild(card);
+            }
+        });
+
+        // ==================== 3D TILT-ЭФФЕКТ КАРТОЧЕК ====================
+        function handleCardTilt(e, card) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 15;
+            const rotateY = (centerX - x) / 15;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+            // Свечение следует за курсором
+            const glow = card.querySelector('.card-glow');
+            glow.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(212, 175, 55, 0.15), transparent 60%)`;
+        }
+
+        function resetCardTilt(card) {
+            card.style.transform = '';
+            const glow = card.querySelector('.card-glow');
+            glow.style.background = 'transparent';
+        }
+
+        // ==================== ОТКРЫТИЕ СТРАНИЦЫ ПРОЕКТА ====================
+        function openProject(proj) {
+            // Устанавливаем акцентный цвет страницы проекта
+            root.style.setProperty('--page-accent', proj.theme.accent);
+
+            // Выбираем панораму (10% шанс ночной для Minecraft)
+            let panoramaSrc;
+            if (typeof proj.panorama === 'object') {
+                panoramaSrc = Math.random() < 0.1 ? proj.panorama.night : proj.panorama.day;
+            } else if (proj.panorama) {
+                panoramaSrc = proj.panorama;
+            } else {
+                panoramaSrc = '';
+            }
+            if (panoramaSrc) {
+                document.getElementById('page-panorama').style.backgroundImage = `url('${panoramaSrc}')`;
+            }
+            document.getElementById('page-title').innerText = proj.title;
+            document.getElementById('page-title').style.color = proj.theme.accent;
+            document.getElementById('page-desc').innerText = proj.fullDesc;
+            document.getElementById('page-github').href = proj.github;
+
+            // Рендерим теги технологий
+            const techContainer = document.getElementById('page-tech');
+            techContainer.innerHTML = proj.tech.map(t => `<span class="tag">${t}</span>`).join('');
+
+            // Рендерим скриншоты с обработкой ошибок
+            const screensContainer = document.getElementById('page-screenshots');
+            screensContainer.innerHTML = '';
+            if (proj.screenshots && proj.screenshots.length > 0) {
+                proj.screenshots.forEach(src => {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.className = 'page-screenshot-img';
+                    img.alt = `Скриншот ${proj.title}`;
+                    img.onclick = () => openLightbox(src);
+                    // Если изображение не загрузилось — показываем заглушку
+                    img.onerror = () => {
+                        img.style.display = 'none';
+                        screensContainer.innerHTML += `<div class="page-screenshot-placeholder">Скриншот скоро появится</div>`;
+                    };
+                    screensContainer.appendChild(img);
+                });
+            } else {
+                screensContainer.innerHTML = `<div class="page-screenshot-placeholder">Скриншоты скоро появятся</div>`;
+            }
+
+            // Активируем страницу и блокируем прокрутку фона
+            projectPage.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProject() {
+            projectPage.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ==================== ЛАЙТБОКС ====================
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        // Закрытие лайтбокса по клику на фон
+        lightbox.onclick = (e) => {
+            if (e.target === lightbox) closeLightbox();
+        };
+
+        // Закрытие по Escape (и проекта, и лайтбокса)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeProject();
+                closeLightbox();
+            }
+        });
+
+        // ==================== ЭФФЕКТ ПЕЧАТНОЙ МАШИНКИ ====================
+        const typedText = document.getElementById('typed-text');
+        const phrases = ['Game Developer', 'C++ & C#', 'Vulkan / bgfx', 'Creating Worlds'];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeEffect() {
+            const current = phrases[phraseIndex];
+            if (isDeleting) {
+                typedText.textContent = current.substring(0, charIndex--);
+            } else {
+                typedText.textContent = current.substring(0, charIndex++);
+            }
+
+            let speed = isDeleting ? 50 : 100;
+
+            // Пауза после полного набора, затем удаление
+            if (!isDeleting && charIndex === current.length + 1) {
+                speed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === -1) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                speed = 500;
+            }
+
+            setTimeout(typeEffect, speed);
+        }
+
+        typeEffect();
+
+        // ==================== НАВБАР (эффект при скролле) ====================
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ==================== МОБИЛЬНОЕ МЕНЮ ====================
+        const burger = document.getElementById('burger');
+        const mobileMenu = document.getElementById('mobile-menu');
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Закрытие мобильного меню при клике на ссылку
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                burger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // ==================== SCROLL-АНИМАЦИИ (IntersectionObserver) ====================
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Анимируем skill-бары при появлении в viewport
+                    const fills = entry.target.querySelectorAll('.skill-fill');
+                    fills.forEach(fill => {
+                        const width = fill.getAttribute('data-width');
+                        setTimeout(() => {
+                            fill.style.width = width + '%';
+                        }, 300);
+                    });
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ==================== СИСТЕМА ЧАСТИЦ (Canvas) ====================
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                // Если частица вышла за границы — сброс
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        // Создаём 80 частиц
+        for (let i = 0; i < 80; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Рисуем линии между близкими частицами
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(212, 175, 55, ${0.08 * (1 - dist / 100)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // ==================== КАСТОМНЫЙ КУРСОР ====================
+        const cursor = document.querySelector('.custom-cursor');
+        const follower = document.querySelector('.custom-cursor-follower');
+
+        let mouseX = 0, mouseY = 0;
+        let followerX = 0, followerY = 0;
+        const speed = 0.12;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+        });
+
+        // Follower плавно догоняет курсор
+        function animateFollower() {
+            followerX += (mouseX - followerX) * speed;
+            followerY += (mouseY - followerY) * speed;
+            follower.style.left = followerX + 'px';
+            follower.style.top = followerY + 'px';
+            requestAnimationFrame(animateFollower);
+        }
+
+        animateFollower();
+
+        // Увеличение курсора при наведении на интерактивные элементы
+        document.querySelectorAll('a, button, .project-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('active');
+                follower.classList.add('active');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('active');
+                follower.classList.remove('active');
+            });
+        });
+
+        // ==================== ПЛАВНАЯ ПРОКРУТКА ====================
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
